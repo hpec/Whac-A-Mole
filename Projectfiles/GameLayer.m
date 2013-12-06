@@ -290,13 +290,18 @@ bool died;
         }
     }
     NSUInteger arrayLength = [no_mice_arr count];
-    printf("%d\n",arrayLength);
+  
     int length = (int)arrayLength;
+
     if (length != 0){
         int r = arc4random() % length;
+
         NSNumber *idx = [no_mice_arr objectAtIndex:r];
         int mice_index = [idx integerValue];
-        printf("%d", length);
+        printf("***********\n");
+        printf("%d\n",mice_index);
+        printf("&&&&&&&&\n");
+//        printf("%d", length);
         NSNumber *one = [NSNumber numberWithInt:1];
         [has_mice replaceObjectAtIndex:mice_index withObject:one];
         
@@ -305,8 +310,8 @@ bool died;
         int col_idx = mice_index%4;
         float row_unit = WIDTH_WINDOW/4;
         float col_unit = HEIGHT_WINDOW/4;
-        float x = row_idx + row_unit/2;
-        float y = col_idx + col_unit/2;
+        float x = row_idx*row_unit + row_unit/2;
+        float y = col_idx*col_unit + col_unit/2;
         
 //        printf("%f %f",x,y);
         CCSprite *a_mouse =[CCSprite spriteWithFile: @"cut_mouse.png"];
