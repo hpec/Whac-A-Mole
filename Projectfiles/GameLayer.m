@@ -122,6 +122,10 @@ bool died;
         // initiate mice.
         
         has_mice = [[NSMutableArray alloc] init ];
+        mice =[[NSMutableArray alloc] init];
+        for (int i = 0; i < NUM_MICE; i ++)[mice addObject:[NSNull null]];
+
+        
 //        for (int count = 0; count < 10; count++ )
 //        {
 //            
@@ -139,7 +143,7 @@ bool died;
 //        }
 //        [self scheduleUpdate];
         
-    
+        
 
         for (int i = 0; i < 16; i++)
         {
@@ -298,10 +302,7 @@ bool died;
 
         NSNumber *idx = [no_mice_arr objectAtIndex:r];
         int mice_index = [idx integerValue];
-        printf("***********\n");
-        printf("%d\n",mice_index);
-        printf("&&&&&&&&\n");
-//        printf("%d", length);
+
         NSNumber *one = [NSNumber numberWithInt:1];
         [has_mice replaceObjectAtIndex:mice_index withObject:one];
         
@@ -312,13 +313,14 @@ bool died;
         float col_unit = HEIGHT_WINDOW/4;
         float x = row_idx*row_unit + row_unit/2;
         float y = col_idx*col_unit + col_unit/2;
-        
-//        printf("%f %f",x,y);
+
         CCSprite *a_mouse =[CCSprite spriteWithFile: @"cut_mouse.png"];
         a_mouse.position = ccp(x,y);
+        [mice replaceObjectAtIndex:mice_index withObject:a_mouse];
         [self addChild:a_mouse];
     }
     //[self scheduleUpdate];
 }
+
 
 @end
