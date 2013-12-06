@@ -7,18 +7,22 @@
 
 #import "GameLayer.h"
 #import "SimpleAudioEngine.h"
+#include <stdlib.h>
 #define WIDTH_WINDOW 480
 #define HEIGHT_WINDOW 320
 #define MARGIN 20
 #define NUM_ROWS 4
 #define NUM_COLUMNS 6
 #define DELAY_IN_SECONDS 0.15
+#define NUM_MICE 16
+
 
 @interface GameLayer (PrivateMethods)
 @end
 
 NSMutableArray* grid;
 NSMutableArray* mice;
+NSMutableArray* has_mice;
 int score;
 bool died;
 
@@ -115,6 +119,37 @@ bool died;
         
         [self schedule:@selector(nextFrame) interval:DELAY_IN_SECONDS];
         
+        // initiate mice.
+        
+        has_mice = [[NSMutableArray alloc] init ];
+//        for (int count = 0; count < 10; count++ )
+//        {
+//            
+//            
+//            CCSprite *a_mouse =[CCSprite spriteWithFile: @"cut_mouse.png"];
+//            int x = arc4random()%200;
+//            int y = arc4random()%200;
+//            a_mouse.position =ccp(x,y);
+//            
+//            [mice addObject:a_mouse];
+//        }
+//        
+//        for (CCSprite* a_mouse in mice){
+//            [self addChild:a_mouse];
+//        }
+//        [self scheduleUpdate];
+        
+    
+
+        for (int i = 0; i < 16; i++)
+        {
+            NSNumber *item = [NSNumber numberWithInt: 0];
+            [has_mice addObject:item];
+        }
+        printf("****\n");
+        NSLog(@"array: %@", has_mice);
+        printf("&&&&\n");
+        //[self addMouse];
 	}
 
 	return self;
@@ -245,7 +280,40 @@ bool died;
 
 -(void) addMouse
 {
-    
+    NSMutableArray* no_mice_arr = [[NSMutableArray alloc] init ];
+    for (int i = 0; i < NUM_MICE;i++){
+        NSNumber *mynum = [has_mice objectAtIndex:i];
+        int x = [mynum integerValue];
+        if (x == 0){
+            NSNumber *item = [NSNumber numberWithInt: i];
+            [no_mice_arr addObject:item];
+        }
+    }
+    NSUInteger arrayLength = [no_mice_arr count];
+    printf("%d\n",arrayLength);
+    int length = (int)arrayLength;
+    if (length != 0){
+        int r = arc4random() % length;
+        NSNumber *idx = [no_mice_arr objectAtIndex:r];
+        int mice_index = [idx integerValue];
+        printf("%d", length);
+        NSNumber *one = [NSNumber numberWithInt:1];
+        [has_mice replaceObjectAtIndex:mice_index withObject:one];
+        
+        // get mouse co-or
+        int row_idx = mice_index/4;
+        int col_idx = mice_index%4;
+        float row_unit = WIDTH_WINDOW/4;
+        float col_unit = HEIGHT_WINDOW/4;
+        float x = row_idx + row_unit/2;
+        float y = col_idx + col_unit/2;
+        
+//        printf("%f %f",x,y);
+        CCSprite *a_mouse =[CCSprite spriteWithFile: @"cut_mouse.png"];
+        a_mouse.position = ccp(x,y);
+        [self addChild:a_mouse];
+    }
+    //[self scheduleUpdate];
 }
 
 @end
