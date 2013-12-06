@@ -67,6 +67,7 @@
 		DCC1A3B013A94F1A005BD75D /* config.lua in Resources */ = {isa = PBXBuildFile; fileRef = DCC1A39513A94F1A005BD75D /* config.lua */; };
 		DCF95CD213A97EC500AE3B80 /* libcocos2d-mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCF95CC913A97EC500AE3B80 /* libcocos2d-mac.a */; };
 		DCF95CD413A97EC500AE3B80 /* libkobold2d-mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCF95CCB13A97EC500AE3B80 /* libkobold2d-mac.a */; };
+		E11E98371852643D00A64324 /* cut_mouse.png in Resources */ = {isa = PBXBuildFile; fileRef = E11E98361852643D00A64324 /* cut_mouse.png */; };
 		E17B3C5A1846A08400A5C4BF /* grass_texture.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E17B3C591846A08400A5C4BF /* grass_texture.jpg */; };
 /* End PBXBuildFile section */
 
@@ -140,6 +141,7 @@
 		DCF95CCB13A97EC500AE3B80 /* libkobold2d-mac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libkobold2d-mac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCFA90EF13B4F6F7009DD35A /* BuildSettings-Debug-iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "BuildSettings-Debug-iOS.xcconfig"; sourceTree = "<group>"; };
 		DCFA90F013B4F811009DD35A /* BuildSettings-Release-iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "BuildSettings-Release-iOS.xcconfig"; sourceTree = "<group>"; };
+		E11E98361852643D00A64324 /* cut_mouse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cut_mouse.png; sourceTree = "<group>"; };
 		E17B3C591846A08400A5C4BF /* grass_texture.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = grass_texture.jpg; path = ../grass_texture.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -301,6 +303,7 @@
 		DCC1A39413A94F1A005BD75D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E11E98361852643D00A64324 /* cut_mouse.png */,
 				DCC1A39513A94F1A005BD75D /* config.lua */,
 				DC275D2A13B27DBF009C5098 /* Pow.caf */,
 				E17B3C591846A08400A5C4BF /* grass_texture.jpg */,
@@ -420,6 +423,7 @@
 				DC1BE6A214F417CC00F49D25 /* Ubuntu-C.ttf in Resources */,
 				DC1BE6A314F417CC00F49D25 /* Ubuntu-L.ttf in Resources */,
 				DC1BE6A414F417CC00F49D25 /* Ubuntu-LI.ttf in Resources */,
+				E11E98371852643D00A64324 /* cut_mouse.png in Resources */,
 				DC1BE6A514F417CC00F49D25 /* Ubuntu-M.ttf in Resources */,
 				DC1BE6A614F417CC00F49D25 /* Ubuntu-MI.ttf in Resources */,
 				DC1BE6A714F417CC00F49D25 /* Ubuntu-R.ttf in Resources */,

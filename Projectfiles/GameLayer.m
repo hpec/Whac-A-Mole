@@ -1,7 +1,7 @@
 /*
  * Kobold2D™ --- http://www.kobold2d.org
  *
- * Copyright (c) 2010-2011 Steffen Itterheim. 
+ * Copyright (c) 2010-2011 Steffen Itterheim.
  * Released under MIT License in Germany (LICENSE-Kobold2D.txt).
  */
 
@@ -37,12 +37,12 @@ bool died;
 	if ((self = [super init]))
 	{
         CCLOG(@"%@ init", NSStringFromClass([self class]));
-        
+
         CCSprite *sprite = [CCSprite spriteWithFile:@"grass_texture.jpg"];
         sprite.anchorPoint = CGPointZero;
         [self addChild:sprite z:-1];
 
-        
+
         died = false;
         grid = [[NSMutableArray alloc] init];
         for (int row = 0; row < NUM_ROWS; row++ )
@@ -55,95 +55,49 @@ bool died;
             }
             [grid addObject:subArr];
         }
-        
-				
+
+
 		CCDirector* director = [CCDirector sharedDirector];
 
 		// get the hello world string from the config.lua file
-		[KKConfig injectPropertiesFromKeyPath:@"HelloWorldSettings" target:self];
-		
-		CCLabelTTF* label = [CCLabelTTF labelWithString:helloWorldString 
-											   fontName:helloWorldFontName 
-											   fontSize:helloWorldFontSize];
-		label.position = director.screenCenter;
-		label.color = ccGREEN;
-		[self addChild:label];
+//		[KKConfig injectPropertiesFromKeyPath:@"HelloWorldSettings" target:self];
+//
+//		CCLabelTTF* label = [CCLabelTTF labelWithString:helloWorldString
+//											   fontName:helloWorldFontName
+//											   fontSize:helloWorldFontSize];
+//		label.position = director.screenCenter;
+//		label.color = ccGREEN;
+//		[self addChild:label];
 
-		// print out which platform we're on
-		NSString* platform = @"(unknown platform)";
-		
-		if (director.currentPlatformIsIOS)
-		{
-			// add code 
-			platform = @"iPhone/iPod Touch";
-			
-			if (director.currentDeviceIsIPad)
-				platform = @"iPad";
-
-			if (director.currentDeviceIsSimulator)
-				platform = [NSString stringWithFormat:@"%@ Simulator", platform];
-		}
-		else if (director.currentPlatformIsMac)
-		{
-			platform = @"Mac OS X";
-		}
-		
-		CCLabelTTF* platformLabel = nil;
-		if (director.currentPlatformIsIOS) 
-		{
-			// how to add custom ttf fonts to your app is described here:
-			// http://tetontech.wordpress.com/2010/09/03/using-custom-fonts-in-your-ios-application/
-			float fontSize = (director.currentDeviceIsIPad) ? 48 : 28;
-			platformLabel = [CCLabelTTF labelWithString:platform 
-											   fontName:@"Ubuntu Condensed"
-											   fontSize:fontSize];
-		}
-		else if (director.currentPlatformIsMac)
-		{
-			// Mac builds have to rely on fonts installed on the system.
-			platformLabel = [CCLabelTTF labelWithString:platform 
-											   fontName:@"Zapfino" 
-											   fontSize:32];
-		}
-
-		platformLabel.position = director.screenCenter;
-		platformLabel.color = ccYELLOW;
-		[self addChild:platformLabel];
-		
-		id movePlatform = [CCMoveBy actionWithDuration:0.2f 
-											  position:CGPointMake(0, 50)];
-		[platformLabel runAction:movePlatform];
-        
-        
 		glClearColor(0.2f, 0.2f, 0.4f, 1.0f);
-        
-        [self schedule:@selector(nextFrame) interval:DELAY_IN_SECONDS];
-        
+
+
+
         // initiate mice.
-        
+
         has_mice = [[NSMutableArray alloc] init ];
         mice =[[NSMutableArray alloc] init];
         for (int i = 0; i < NUM_MICE; i ++)[mice addObject:[NSNull null]];
 
-        
+
 //        for (int count = 0; count < 10; count++ )
 //        {
-//            
-//            
+//
+//
 //            CCSprite *a_mouse =[CCSprite spriteWithFile: @"cut_mouse.png"];
 //            int x = arc4random()%200;
 //            int y = arc4random()%200;
 //            a_mouse.position =ccp(x,y);
-//            
+//
 //            [mice addObject:a_mouse];
 //        }
-//        
+//
 //        for (CCSprite* a_mouse in mice){
 //            [self addChild:a_mouse];
 //        }
 //        [self scheduleUpdate];
-        
-        
+
+
 
         for (int i = 0; i < 16; i++)
         {
@@ -154,6 +108,8 @@ bool died;
         NSLog(@"array: %@", has_mice);
         printf("&&&&\n");
         //[self addMouse];
+        [self schedule:@selector(nextFrame) interval:1];
+        [self scheduleUpdate];
 	}
 
 	return self;
@@ -180,12 +136,13 @@ bool died;
 
 -(void) update: (ccTime) delta
 {
-    
+
     KKInput* input = [KKInput sharedInput];
     CGPoint pos = [input locationOfAnyTouchInPhase:KKTouchPhaseAny];
-    
+
 //    if ([input anyTouchBeganThisFrame])
 //    {
+//        NSLog(@"Touches begin!");
 //        int x = pos.x;
 //        int y = pos.y;
 //        if(x >= WIDTH_WINDOW / 2 && y > HEIGHT_GAME + Y_OFF_SET)
@@ -205,7 +162,7 @@ bool died;
 //            {
 //                int row = (y - Y_OFF_SET) / CELL_WIDTH;
 //                int col = x / CELL_WIDTH;
-//                
+//
 //                if([[[grid objectAtIndex:row] objectAtIndex: col] integerValue] == 1)
 //                {
 //                    [[grid objectAtIndex:row] replaceObjectAtIndex:col withObject:@0];
@@ -216,20 +173,29 @@ bool died;
 //                }
 //            }
 //    }
-//    
-//    
+//
+//
 //    else if ([input anyTouchEndedThisFrame])
 //    {
 //        priorX = 500;
 //        priorY = 500;
 //    }
-    
-//    if([input touchesAvailable])
-//    {
+//    }
+    if([input anyTouchEndedThisFrame])
+    {
+        for (int i = 0; i < NUM_MICE; i++) {
+            CCSprite *mouse = [mice objectAtIndex:i];
+            if (mouse!=(id)[NSNull null] && CGRectContainsPoint(mouse.boundingBox, pos)) {
+                NSLog(@"Hit" );
+                [self removeChild:mouse];
+                [mice replaceObjectAtIndex:i withObject:[NSNull null]];
+            }
+        }
 //		{
+//
 //			float x = pos.x;
 //			float y = pos.y;
-//			
+//
 //			if(x >= WIDTH_WINDOW / 2 && y > HEIGHT_GAME + Y_OFF_SET)
 //			{
 //			}
@@ -246,7 +212,7 @@ bool died;
 //				float cellYBig = row + 1;
 //				float cellXSmall = col;
 //				float cellXBig = col + 1;
-//				
+//
 //				if ((priorX != 500.0)
 //					&& ((priorX < cellXSmall && x1 > cellXSmall && (double) row <= y1 && (double) row >= y1 - 1.0)
 //                        || (priorX > cellXBig && x1 < cellXBig && (double) row <= y1 && (double) row >= y1 - 1.0)
@@ -254,7 +220,7 @@ bool died;
 //                        || (priorY < cellYSmall && y1 > cellXSmall && (double) col <= x1 && (double) col >= x1 - 1.0))
 //					)
 //				{
-//                    
+//
 //					//make corresponding position in array alive or dead
 //					if([[[grid objectAtIndex:row] objectAtIndex: col] integerValue] == 1)
 //					{
@@ -271,8 +237,8 @@ bool died;
 //				priorY = y1;
 //			}
 //		}
-//    }
-    
+    }
+
 }
 
 -(void) nextFrame
@@ -294,7 +260,7 @@ bool died;
         }
     }
     NSUInteger arrayLength = [no_mice_arr count];
-  
+
     int length = (int)arrayLength;
 
     if (length != 0){
@@ -305,7 +271,7 @@ bool died;
 
         NSNumber *one = [NSNumber numberWithInt:1];
         [has_mice replaceObjectAtIndex:mice_index withObject:one];
-        
+
         // get mouse co-or
         int row_idx = mice_index/4;
         int col_idx = mice_index%4;
@@ -319,7 +285,6 @@ bool died;
         [mice replaceObjectAtIndex:mice_index withObject:a_mouse];
         [self addChild:a_mouse];
     }
-    //[self scheduleUpdate];
 }
 
 
