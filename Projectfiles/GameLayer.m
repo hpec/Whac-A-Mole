@@ -29,10 +29,11 @@ int HEIGHT_WINDOW;
 CCDirector* director;
 CCMenu *restartButton;
 CCLabelTTF* score_label;
+CCLabelTTF* lost_label;
 float timePassed;
 float difficulty;
 int mice_left_to_increase_difficulty;
-
+int level;
 int score;
 bool died;
 
@@ -50,15 +51,8 @@ bool died;
     score = 0;
     died = false;
     timePassed = 0;
-    difficulty = 0.1;
-    mice_left_to_increase_difficulty = 6;
-    CCMenuItemImage *menuItem = [CCMenuItemImage itemWithNormalImage:@"vid_replay.png"
-                                                       selectedImage:@"vid_replay.png"
-                                                              target:self
-                                                            selector:@selector(restart)];
-    
-    restartButton = [CCMenu menuWithItems:menuItem, nil];
-    restartButton.position = ccp(WIDTH_WINDOW/2, HEIGHT_WINDOW/2 - 50);;
+    difficulty = 0.6;
+    mice_left_to_increase_difficulty = 5;
 }
 
 -(void) restart {
@@ -69,6 +63,8 @@ bool died;
     }
     [self setInitialValues];
     [score_label setString:[NSString stringWithFormat:@"Score: %d", score]];
+    restartButton.visible = false;
+    lost_label.visible = false;
 
 }
 
@@ -101,8 +97,6 @@ bool died;
 		director = [CCDirector sharedDirector];
         [KKConfig injectPropertiesFromKeyPath:@"HelloWorldSettings" target:self];
         
-        
-
         // initiate mice.
 
         has_mice = [[NSMutableArray alloc] init ];
@@ -120,7 +114,26 @@ bool died;
         score_label = [CCLabelTTF labelWithString:@"Score: 0" fontName:@"Helvetica" fontSize:24];
         score_label.position = ccp(WIDTH_WINDOW - 100, HEIGHT_WINDOW - 20);
         [self addChild:score_label];
-
+        
+        // init lose menu
+        CCMenuItemImage *menuItem = [CCMenuItemImage itemWithNormalImage:@"vid_replay.png"
+                                                           selectedImage:@"vid_replay.png"
+                                                                  target:self
+                                                                selector:@selector(restart)];
+        
+        restartButton = [CCMenu menuWithItems:menuItem, nil];
+        restartButton.position = ccp(WIDTH_WINDOW/2, HEIGHT_WINDOW/2 - 50);
+        restartButton.visible = false;
+        [self addChild:restartButton];
+        
+        lost_label = [CCLabelTTF labelWithString:@"You Lost!"
+                                               fontName:helloWorldFontName
+                                               fontSize:helloWorldFontSize];
+        lost_label.position = director.screenCenter;
+        lost_label.color = ccRED;
+        lost_label.visible = false;
+        [self addChild:lost_label z:100];
+        
         [self schedule:@selector(nextFrame) interval:DELAY_IN_SECONDS];
         [self scheduleUpdate];
 	}
@@ -154,8 +167,9 @@ bool died;
                     score += 100;
                     mice_left_to_increase_difficulty--;
                     if (mice_left_to_increase_difficulty <=0) {
+                        level++;
                         difficulty = max(difficulty - 0.1, difficulty * 4 / 5);
-                        mice_left_to_increase_difficulty = 6;
+                        mice_left_to_increase_difficulty = max(5 + level, 10);
                     }
                     [score_label setString:[NSString stringWithFormat:@"Score: %d", score]];
                 }
@@ -230,13 +244,9 @@ bool died;
     }
     else{
         died = true;
-        CCLabelTTF* label = [CCLabelTTF labelWithString:@"You Lost!"
-                                               fontName:helloWorldFontName
-                                               fontSize:helloWorldFontSize];
-        label.position = director.screenCenter;
-        label.color = ccRED;
-        [self addChild:label z:100];
-        [self addChild:restartButton];
+        restartButton.visible = true;
+        lost_label.visible = true;
+        
     }
 }
 
