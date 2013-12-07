@@ -27,10 +27,11 @@ NSMutableArray* control_buttons;
 int WIDTH_WINDOW;
 int HEIGHT_WINDOW;
 CCDirector* director;
+CCMenu *restartButton;
 CCLabelTTF* score_label;
 float timePassed;
-float difficulty = 0.7;
-int mice_left_to_increase_difficulty = 6;
+float difficulty;
+int mice_left_to_increase_difficulty;
 
 int score;
 bool died;
@@ -42,19 +43,48 @@ bool died;
 @synthesize helloWorldString, helloWorldFontName;
 @synthesize helloWorldFontSize;
 
+-(void) setInitialValues {
+    CGSize size = [UIScreen mainScreen].bounds.size;
+    WIDTH_WINDOW = size.height;
+    HEIGHT_WINDOW = size.width;
+    score = 0;
+    died = false;
+    timePassed = 0;
+    difficulty = 0.7;
+    mice_left_to_increase_difficulty = 6;
+    CCMenuItemImage *menuItem = [CCMenuItemImage itemWithNormalImage:@"vid_replay.png"
+                                                       selectedImage:@"vid_replay.png"
+                                                              target:self
+                                                            selector:@selector(restart)];
+    
+    restartButton = [CCMenu menuWithItems:menuItem, nil];
+    restartButton.position = ccp(WIDTH_WINDOW/2, HEIGHT_WINDOW/2 - 50);;
+}
+
+-(void) restart {
+    [self removeChild:restartButton];
+    for (int i = 0; i < NUM_MICE; i++) {
+        [self removeChild:[mice objectAtIndex:i]];
+        [mice replaceObjectAtIndex:i withObject:(id)[NSNull null]];
+    }
+    [self setInitialValues];
+    [score_label setString:[NSString stringWithFormat:@"Score: %d", score]];
+
+}
+
 -(id) init
 {
 	if ((self = [super init]))
 	{
-        CGSize size = [UIScreen mainScreen].bounds.size;
-        WIDTH_WINDOW = size.height;
-        HEIGHT_WINDOW = size.width;
+        [self setInitialValues];
         
         CCLOG(@"%@ init", NSStringFromClass([self class]));
 
-//        CCSprite *sprite = [CCSprite spriteWithFile:@"grass_texture.jpg"];
         CCSprite *sprite = [CCSprite spriteWithFile:@"freeze-cheese.jpeg"];
         [self resizeSprite:sprite toWidth:WIDTH_WINDOW toHeight:HEIGHT_WINDOW];
+        sprite.anchorPoint = CGPointZero;
+        [self addChild:sprite z:-1];
+        
 //        CCSprite *pause =[CCSprite spriteWithFile:@"pause_button.png"];
 //        CCSprite *resume =[CCSprite spriteWithFile:@"images.jpeg"];
 //        pause.position = ccp(30,30);
@@ -64,33 +94,13 @@ bool died;
 //        [control_buttons addObject:pause];
 //        [control_buttons addObject:resume];
         
-        sprite.anchorPoint = CGPointZero;
-        [self addChild:sprite z:-1];
+        
 //        [self addChild:pause];
 //        [self addChild:resume];
 
-
-        died = false;
-        grid = [[NSMutableArray alloc] init];
-        for (int row = 0; row < NUM_ROWS; row++ )
-        {
-            NSMutableArray* subArr = [[NSMutableArray alloc] init ];
-            for (int col = 0; col < NUM_COLUMNS; col++ )
-            {
-                NSNumber *item = @0;
-                [subArr addObject:item];
-            }
-            [grid addObject:subArr];
-        }
-
-
 		director = [CCDirector sharedDirector];
-
-		// get the hello world string from the config.lua file
-		[KKConfig injectPropertiesFromKeyPath:@"HelloWorldSettings" target:self];
-
-		glClearColor(0.2f, 0.2f, 0.4f, 1.0f);
-
+        
+        
 
         // initiate mice.
 
@@ -224,7 +234,16 @@ bool died;
                                                fontSize:helloWorldFontSize];
         label.position = director.screenCenter;
         label.color = ccRED;
-        [self addChild:label z:100];
+        [self addChild:label z:1000];
+//        CCLabelBMFont *startLabel = [CCLabelBMFont labelWithString:@"Restart Game" fntFile:<#(NSString *)#>];
+//        CCMenuItemLabel *startItem = [CCMenuItemLabel itemWithLabel:startLabel target:self selector:@selector(restart:)];
+//        startItem.scale = 1;
+//        CCMenuItemSprite *playButton = CCMenuItemSprite::create(GameButton::buttonWithText("Restart!", true), NULL, this, menu_selector());
+//        CCMenu *menu = [CCMenu menuWithItems:startItem,nil];
+//        menu.position = ccp(WIDTH_WINDOW / 2, HEIGHT_WINDOW / 2 - 20);
+//        [self addChild:menu];
+
+        [self addChild:restartButton];
     }
 }
 
