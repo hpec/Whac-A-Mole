@@ -50,7 +50,7 @@ bool died;
     score = 0;
     died = false;
     timePassed = 0;
-    difficulty = 0.7;
+    difficulty = 0.1;
     mice_left_to_increase_difficulty = 6;
     CCMenuItemImage *menuItem = [CCMenuItemImage itemWithNormalImage:@"vid_replay.png"
                                                        selectedImage:@"vid_replay.png"
@@ -99,6 +99,7 @@ bool died;
 //        [self addChild:resume];
 
 		director = [CCDirector sharedDirector];
+        [KKConfig injectPropertiesFromKeyPath:@"HelloWorldSettings" target:self];
         
         
 
@@ -234,15 +235,7 @@ bool died;
                                                fontSize:helloWorldFontSize];
         label.position = director.screenCenter;
         label.color = ccRED;
-        [self addChild:label z:1000];
-//        CCLabelBMFont *startLabel = [CCLabelBMFont labelWithString:@"Restart Game" fntFile:<#(NSString *)#>];
-//        CCMenuItemLabel *startItem = [CCMenuItemLabel itemWithLabel:startLabel target:self selector:@selector(restart:)];
-//        startItem.scale = 1;
-//        CCMenuItemSprite *playButton = CCMenuItemSprite::create(GameButton::buttonWithText("Restart!", true), NULL, this, menu_selector());
-//        CCMenu *menu = [CCMenu menuWithItems:startItem,nil];
-//        menu.position = ccp(WIDTH_WINDOW / 2, HEIGHT_WINDOW / 2 - 20);
-//        [self addChild:menu];
-
+        [self addChild:label z:100];
         [self addChild:restartButton];
     }
 }
