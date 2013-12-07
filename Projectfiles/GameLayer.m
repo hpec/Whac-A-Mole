@@ -8,12 +8,12 @@
 #import "GameLayer.h"
 #import "SimpleAudioEngine.h"
 #include <stdlib.h>
-#define WIDTH_WINDOW 480
-#define HEIGHT_WINDOW 320
+//#define WIDTH_WINDOW 480
+//#define HEIGHT_WINDOW 320
 #define MARGIN 20
 #define NUM_ROWS 4
 #define NUM_COLUMNS 6
-#define DELAY_IN_SECONDS 0.15
+#define DELAY_IN_SECONDS 0.01
 #define NUM_MICE 16
 
 
@@ -24,7 +24,13 @@ NSMutableArray* grid;
 NSMutableArray* mice;
 NSMutableArray* has_mice;
 NSMutableArray* control_buttons;
+int WIDTH_WINDOW;
+int HEIGHT_WINDOW;
 CCDirector* director;
+CCLabelTTF* score_label;
+float timePassed;
+float difficulty = 0.7;
+int mice_left_to_increase_difficulty = 6;
 
 int score;
 bool died;
@@ -40,9 +46,15 @@ bool died;
 {
 	if ((self = [super init]))
 	{
+        CGSize size = [UIScreen mainScreen].bounds.size;
+        WIDTH_WINDOW = size.height;
+        HEIGHT_WINDOW = size.width;
+        
         CCLOG(@"%@ init", NSStringFromClass([self class]));
 
-        CCSprite *sprite = [CCSprite spriteWithFile:@"grass_texture.jpg"];
+//        CCSprite *sprite = [CCSprite spriteWithFile:@"grass_texture.jpg"];
+        CCSprite *sprite = [CCSprite spriteWithFile:@"freeze-cheese.jpeg"];
+        [self resizeSprite:sprite toWidth:WIDTH_WINDOW toHeight:HEIGHT_WINDOW];
 //        CCSprite *pause =[CCSprite spriteWithFile:@"pause_button.png"];
 //        CCSprite *resume =[CCSprite spriteWithFile:@"images.jpeg"];
 //        pause.position = ccp(30,30);
@@ -91,8 +103,14 @@ bool died;
             NSNumber *item = [NSNumber numberWithInt: 0];
             [has_mice addObject:item];
         }
+        
+        // init score labels
+        
+        score_label = [CCLabelTTF labelWithString:@"Score: 0" fontName:@"Helvetica" fontSize:24];
+        score_label.position = ccp(WIDTH_WINDOW - 100, HEIGHT_WINDOW - 20);
+        [self addChild:score_label];
 
-        [self schedule:@selector(nextFrame) interval:1];
+        [self schedule:@selector(nextFrame) interval:DELAY_IN_SECONDS];
         [self scheduleUpdate];
 	}
 
@@ -113,8 +131,6 @@ bool died;
     CGPoint pos       = [input locationOfAnyTouchInPhase:KKTouchPhaseAny];
     CGPoint pause_pos = [input locationOfAnyTouchInPhase:KKTouchPhaseAny];
     CGPoint resume_pos = [input locationOfAnyTouchInPhase:KKTouchPhaseAny];
-    
-
 
     if([input anyTouchEndedThisFrame])
     {
@@ -122,9 +138,15 @@ bool died;
             for (int i = 0; i < NUM_MICE; i++) {
                 CCSprite *mouse = [mice objectAtIndex:i];
                 if (mouse!=(id)[NSNull null] && CGRectContainsPoint(mouse.boundingBox, pos)) {
-                    NSLog(@"Hit" );
                     [self removeChild:mouse];
                     [mice replaceObjectAtIndex:i withObject:[NSNull null]];
+                    score += 100;
+                    mice_left_to_increase_difficulty--;
+                    if (mice_left_to_increase_difficulty <=0) {
+                        difficulty = max(difficulty - 0.1, difficulty * 4 / 5);
+                        mice_left_to_increase_difficulty = 6;
+                    }
+                    [score_label setString:[NSString stringWithFormat:@"Score: %d", score]];
                 }
 //                CCSprite *pause =  [control_buttons objectAtIndex:0];
 //                CCSprite *resume = [control_buttons objectAtIndex:1];
@@ -150,7 +172,11 @@ bool died;
 -(void) nextFrame
 {
     if (!died) {
-        [self addMouse];
+        timePassed += DELAY_IN_SECONDS;
+        if (timePassed >= difficulty) {
+            [self addMouse];
+            timePassed = 0;
+        }
     }
 }
 
@@ -182,7 +208,7 @@ bool died;
         int row_idx = mice_index/4;
         int col_idx = mice_index%4;
         float row_unit = WIDTH_WINDOW/4;
-        float col_unit = HEIGHT_WINDOW/4;
+        float col_unit = HEIGHT_WINDOW*0.9/4;
         float x = row_idx*row_unit + row_unit/2;
         float y = col_idx*col_unit + col_unit/2;
 
@@ -202,5 +228,9 @@ bool died;
     }
 }
 
+-(void)resizeSprite:(CCSprite*)sprite toWidth:(float)width toHeight:(float)height {
+    sprite.scaleX = width / sprite.contentSize.width;
+    sprite.scaleY = height / sprite.contentSize.height;
+}
 
 @end

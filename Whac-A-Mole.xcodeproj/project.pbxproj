@@ -68,6 +68,8 @@
 		DCF95CD213A97EC500AE3B80 /* libcocos2d-mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCF95CC913A97EC500AE3B80 /* libcocos2d-mac.a */; };
 		DCF95CD413A97EC500AE3B80 /* libkobold2d-mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCF95CCB13A97EC500AE3B80 /* libkobold2d-mac.a */; };
 		E11E98371852643D00A64324 /* cut_mouse.png in Resources */ = {isa = PBXBuildFile; fileRef = E11E98361852643D00A64324 /* cut_mouse.png */; };
+		E173AE1E185320E100CDFF5B /* cheese_ingredient.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E173AE1D185320E100CDFF5B /* cheese_ingredient.jpg */; };
+		E173AE201853215900CDFF5B /* freeze-cheese.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = E173AE1F1853215900CDFF5B /* freeze-cheese.jpeg */; };
 		E17B3C5A1846A08400A5C4BF /* grass_texture.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E17B3C591846A08400A5C4BF /* grass_texture.jpg */; };
 		FC63424F1852F2CE00CE91F2 /* images.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = FC63424E1852F2CE00CE91F2 /* images.jpeg */; };
 		FC6342511852F33B00CE91F2 /* Button-Pause-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = FC6342501852F33B00CE91F2 /* Button-Pause-icon.png */; };
@@ -146,6 +148,8 @@
 		DCFA90EF13B4F6F7009DD35A /* BuildSettings-Debug-iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "BuildSettings-Debug-iOS.xcconfig"; sourceTree = "<group>"; };
 		DCFA90F013B4F811009DD35A /* BuildSettings-Release-iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "BuildSettings-Release-iOS.xcconfig"; sourceTree = "<group>"; };
 		E11E98361852643D00A64324 /* cut_mouse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cut_mouse.png; sourceTree = "<group>"; };
+		E173AE1D185320E100CDFF5B /* cheese_ingredient.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cheese_ingredient.jpg; sourceTree = "<group>"; };
+		E173AE1F1853215900CDFF5B /* freeze-cheese.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "freeze-cheese.jpeg"; path = "../freeze-cheese.jpeg"; sourceTree = "<group>"; };
 		E17B3C591846A08400A5C4BF /* grass_texture.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = grass_texture.jpg; path = ../grass_texture.jpg; sourceTree = "<group>"; };
 		FC63424E1852F2CE00CE91F2 /* images.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = images.jpeg; sourceTree = "<group>"; };
 		FC6342501852F33B00CE91F2 /* Button-Pause-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Button-Pause-icon.png"; sourceTree = "<group>"; };
@@ -311,6 +315,8 @@
 		DCC1A39413A94F1A005BD75D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E173AE1F1853215900CDFF5B /* freeze-cheese.jpeg */,
+				E173AE1D185320E100CDFF5B /* cheese_ingredient.jpg */,
 				E11E98361852643D00A64324 /* cut_mouse.png */,
 				DCC1A39513A94F1A005BD75D /* config.lua */,
 				FC6342521852FF5E00CE91F2 /* pause_button.png */,
@@ -393,7 +399,7 @@
 			attributes = {
 				LastUpgradeCheck = 0500;
 			};
-			buildConfigurationList = DCC1A0DB13A94EC0005BD75D /* Build configuration list for PBXProject "whac-a-mole" */;
+			buildConfigurationList = DCC1A0DB13A94EC0005BD75D /* Build configuration list for PBXProject "Whac-A-Mole" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -426,6 +432,7 @@
 				E17B3C5A1846A08400A5C4BF /* grass_texture.jpg in Resources */,
 				DCC1A10613A94ED5005BD75D /* Icon.png in Resources */,
 				DCC1A10813A94ED5005BD75D /* Icon@2x.png in Resources */,
+				E173AE201853215900CDFF5B /* freeze-cheese.jpeg in Resources */,
 				FC6342511852F33B00CE91F2 /* Button-Pause-icon.png in Resources */,
 				DCC1A3AF13A94F1A005BD75D /* config.lua in Resources */,
 				DC485B4813AA194F00F2BC70 /* ship.png in Resources */,
@@ -442,6 +449,7 @@
 				FC63424F1852F2CE00CE91F2 /* images.jpeg in Resources */,
 				DC1BE6A714F417CC00F49D25 /* Ubuntu-R.ttf in Resources */,
 				DC1BE6A814F417CC00F49D25 /* Ubuntu-RI.ttf in Resources */,
+				E173AE1E185320E100CDFF5B /* cheese_ingredient.jpg in Resources */,
 				DC1BE6A914F417CC00F49D25 /* UbuntuMono-B.ttf in Resources */,
 				FC6342551852FF5E00CE91F2 /* resume_button.png in Resources */,
 				DC1BE6AA14F417CC00F49D25 /* UbuntuMono-BI.ttf in Resources */,
@@ -561,7 +569,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		DCC1A0DB13A94EC0005BD75D /* Build configuration list for PBXProject "whac-a-mole" */ = {
+		DCC1A0DB13A94EC0005BD75D /* Build configuration list for PBXProject "Whac-A-Mole" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DCC1A0DD13A94EC0005BD75D /* Debug */,
