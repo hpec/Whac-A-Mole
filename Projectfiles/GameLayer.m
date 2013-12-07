@@ -56,7 +56,6 @@ bool died;
 }
 
 -(void) restart {
-    [self removeChild:restartButton];
     for (int i = 0; i < NUM_MICE; i++) {
         [self removeChild:[mice objectAtIndex:i]];
         [mice replaceObjectAtIndex:i withObject:(id)[NSNull null]];
