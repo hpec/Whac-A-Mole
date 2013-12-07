@@ -51,7 +51,7 @@ bool died;
     score = 0;
     died = false;
     timePassed = 0;
-    difficulty = 0.6;
+    difficulty = 0.5;
     mice_left_to_increase_difficulty = 5;
 }
 
@@ -167,7 +167,7 @@ bool died;
                     mice_left_to_increase_difficulty--;
                     if (mice_left_to_increase_difficulty <=0) {
                         level++;
-                        difficulty = max(difficulty - 0.1, difficulty * 4 / 5);
+                        difficulty = max(difficulty - 0.1, difficulty * 3 / 4);
                         mice_left_to_increase_difficulty = max(5 + level, 10);
                     }
                     [score_label setString:[NSString stringWithFormat:@"Score: %d", score]];
